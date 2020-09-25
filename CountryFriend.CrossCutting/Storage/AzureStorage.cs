@@ -21,7 +21,7 @@ namespace CountryFriend.CrossCutting.Storage
         {
             CloudStorageAccount account = CloudStorageAccount.Parse(this.Options.ConnectionString);
             this.CloudBlobClient = account.CreateCloudBlobClient();
-            CloudBlobContainer container = this.CloudBlobClient.GetContainerReference("at-dsv-wcf-azure");
+            CloudBlobContainer container = this.CloudBlobClient.GetContainerReference("atazure");
             this.ImagesDirectory = container.GetDirectoryReference(".");
         }
         public async Task<String> SaveToStorage(byte[] buffer, string fileName)
@@ -32,7 +32,7 @@ namespace CountryFriend.CrossCutting.Storage
             {
                 await cloudBlockBlob.UploadFromStreamAsync(stream);
             }
-            return $"https://assetsforwork.blob.core.windows.net/atazure/{fileName}";
+            return $"https://atazurecamila.blob.core.windows.net/atazure/{fileName}";
         }
         public void DeleteBlob(string fileName)
         {

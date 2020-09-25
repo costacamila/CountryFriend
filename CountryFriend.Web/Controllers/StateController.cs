@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using CountryFriend.CrossCutting.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,6 +12,13 @@ namespace CountryFriend.Web.Controllers
 {
     public class StateController : Controller
     {
+        private AzureStorage AzureStorage { get; set; }
+
+        public StateController(AzureStorage azureStorage)
+        {
+            this.AzureStorage = azureStorage;
+        }
+
         public IActionResult Index()
         {
             var client = new RestClient();
@@ -33,12 +42,31 @@ namespace CountryFriend.Web.Controllers
         // POST: AuthorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Domain.State.State state)
+        public async Task<ActionResult> Create([FromForm] IFormFile file, [FromForm] string name, [FromForm] string countryName)
         {
             try
             {
-                var client = new RestClient();
+                var filename = $"{Guid.NewGuid().ToString().Replace("-", "")}.jpg";
+
+                var ms = new MemoryStream();
+
+                using (var fileUpload = file.OpenReadStream())
+                {
+                    fileUpload.CopyTo(ms);
+                    fileUpload.Close();
+                }
+                var fileSaved = await this.AzureStorage.SaveToStorage(ms.ToArray(), filename);
+
                 var requestState = new RestRequest("https://localhost:5005/api/state");
+                requestState.AddJsonBody(JsonConvert.SerializeObject(new
+                {
+                    URL = fileSaved,
+                    Filename = filename,
+                    Name = name,
+                    CountryName = countryName
+                }));
+
+                var client = new RestClient();
                 await client.PostAsync<Domain.State.State>(requestState);
                 return RedirectToAction("Index");
             }
@@ -103,7 +131,7 @@ namespace CountryFriend.Web.Controllers
         // POST: AuthorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAuthor([FromRoute] Guid id)
+        public async Task<ActionResult> DeleteState([FromRoute] Guid id)
         {
             try
             {

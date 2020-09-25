@@ -24,10 +24,6 @@ namespace CountryFriend.Services.Country
         }
         public async Task<IdentityResult> CreateCountryAsync(Domain.Country.Country country)
         {
-            if (this.CountryRepository.GetAll().Where(x => x.Name.ToLower().Replace(" ", "")  == country.Name.ToLower().Replace(" ", "")).FirstOrDefault() != null)
-            {
-                throw new Exception("Country already exists.");
-            }
             return await CountryRepository.CreateCountryAsync(country);
         }
         public Domain.Country.Country FindById(Guid countryId)
@@ -36,7 +32,7 @@ namespace CountryFriend.Services.Country
         }
         public async Task<IdentityResult> UpdateCountryAsync(Domain.Country.Country newCountry)
         {
-            if (this.CountryRepository.GetAll().Where(x => x.Id  == newCountry.Id).FirstOrDefault() == null)
+            if (this.CountryRepository.GetAll().Where(x => x.Id == newCountry.Id).FirstOrDefault() == null)
             {
                 throw new Exception("Country doesn't exists.");
             }

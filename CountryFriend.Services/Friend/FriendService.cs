@@ -24,10 +24,6 @@ namespace CountryFriend.Services.Friend
         }
         public async Task<IdentityResult> CreateFriendAsync(Domain.Friend.Friend friend)
         {
-            if (this.FriendRepository.GetAll().Where(x => x.Name.ToLower().Replace(" ", "") == friend.Name.ToLower().Replace(" ", "")).FirstOrDefault() != null)
-            {
-                throw new Exception("Friend already exists.");
-            }
             return await FriendRepository.CreateFriendAsync(friend);
         }
         public Domain.Friend.Friend FindById(Guid friendId)

@@ -73,8 +73,9 @@ namespace CountryFriend.Web.Controllers
                 await client.PostAsync<Domain.Country.Country>(requestCountry);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 ModelState.AddModelError("APP_ERROR", "Country already exists.");
                 return View();
             }
@@ -134,7 +135,7 @@ namespace CountryFriend.Web.Controllers
         // POST: AuthorController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAuthor([FromRoute] Guid id)
+        public async Task<ActionResult> DeleteCountry([FromRoute] Guid id)
         {
             try
             {

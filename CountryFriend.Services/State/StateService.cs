@@ -24,10 +24,6 @@ namespace CountryFriend.Services.State
         }
         public async Task<IdentityResult> CreateStateAsync(Domain.State.State state)
         {
-            if (this.StateRepository.GetAll().Where(x => x.Name.ToLower().Replace(" ", "") == state.Name.ToLower().Replace(" ", "")).FirstOrDefault() != null)
-            {
-                throw new Exception("State already exists.");
-            }
             return await StateRepository.CreateStateAsync(state);
         }
         public Domain.State.State FindById(Guid stateId)
@@ -36,7 +32,7 @@ namespace CountryFriend.Services.State
         }
         public async Task<IdentityResult> UpdateStateAsync(Domain.State.State newState)
         {
-            if (this.StateRepository.GetAll().Where(x => x.Id  == newState.Id).FirstOrDefault() == null)
+            if (this.StateRepository.GetAll().Where(x => x.Id == newState.Id).FirstOrDefault() == null)
             {
                 throw new Exception("State doesn't exists.");
             }

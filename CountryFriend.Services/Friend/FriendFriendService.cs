@@ -20,10 +20,6 @@ namespace CountryFriend.Services.Friend
         }
         public async Task<IdentityResult> CreateFriendFriendAsync(Domain.Friend.FriendFriend friend)
         {
-            if (this.FriendFriendRepository.GetAll().Where(x => x.Name.ToLower().Replace(" ", "")  == friend.Name.ToLower().Replace(" ", "")).FirstOrDefault() != null)
-            {
-                throw new Exception("Friends Friend already exists.");
-            }
             return await FriendFriendRepository.CreateFriendFriendAsync(friend);
         }
 
@@ -34,7 +30,7 @@ namespace CountryFriend.Services.Friend
 
         public async Task<IdentityResult> UpdateFriendFriendAsync(Domain.Friend.FriendFriend newFriendFriend)
         {
-            if (this.FriendFriendRepository.GetAll().Where(x => x.Id  == newFriendFriend.Id).FirstOrDefault() == null)
+            if (this.FriendFriendRepository.GetAll().Where(x => x.Id == newFriendFriend.Id).FirstOrDefault() == null)
             {
                 throw new Exception("Friends Friend doesn't exists.");
             }
