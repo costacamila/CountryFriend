@@ -18,13 +18,13 @@ namespace CountryFriend.Services.Friend
         {
             return FriendFriendRepository.GetAll();
         }
-        public async Task<IdentityResult> CreateFoFAsync(Domain.Friend.FriendFriend friend)
+        public async Task<IdentityResult> CreateFriendFriendAsync(Domain.Friend.FriendFriend friend)
         {
             if (this.FriendFriendRepository.GetAll().Where(x => x.Name.ToLower().Replace(" ", "")  == friend.Name.ToLower().Replace(" ", "")).FirstOrDefault() != null)
             {
                 throw new Exception("Friends Friend already exists.");
             }
-            return await FriendFriendRepository.CreateFoFAsync(friend);
+            return await FriendFriendRepository.CreateFriendFriendAsync(friend);
         }
 
         public Domain.Friend.FriendFriend FindById(Guid friendId)
@@ -32,22 +32,22 @@ namespace CountryFriend.Services.Friend
             return FriendFriendRepository.FindById(friendId);
         }
 
-        public async Task<IdentityResult> UpdateFoFAsync(Domain.Friend.FriendFriend newFoF)
+        public async Task<IdentityResult> UpdateFriendFriendAsync(Domain.Friend.FriendFriend newFriendFriend)
         {
-            if (this.FriendFriendRepository.GetAll().Where(x => x.Id  == newFoF.Id).FirstOrDefault() == null)
+            if (this.FriendFriendRepository.GetAll().Where(x => x.Id  == newFriendFriend.Id).FirstOrDefault() == null)
             {
                 throw new Exception("Friends Friend doesn't exists.");
             }
-            return await FriendFriendRepository.UpdateFoFAsync(newFoF);
+            return await FriendFriendRepository.UpdateFriendFriendAsync(newFriendFriend);
         }
 
-        public async Task<IdentityResult> DeleteFoFAsync(Guid friendId)
+        public async Task<IdentityResult> DeleteFriendFriendAsync(Guid friendId)
         {
             if (this.FriendFriendRepository.GetAll().Where(x => x.Id == friendId).FirstOrDefault() == null)
             {
                 throw new Exception("Friends Friend doesn't exists.");
             }
-            return await FriendFriendRepository.DeleteFoFAsync(friendId);
+            return await FriendFriendRepository.DeleteFriendFriendAsync(friendId);
         }
     }
 }

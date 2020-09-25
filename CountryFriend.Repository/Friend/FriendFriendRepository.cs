@@ -19,7 +19,7 @@ namespace CountryFriend.Repository.Friend
         {
             return Context.FriendFriends.AsEnumerable();
         }
-        public async Task<IdentityResult> CreateFoFAsync(Domain.Friend.FriendFriend friend)
+        public async Task<IdentityResult> CreateFriendFriendAsync(Domain.Friend.FriendFriend friend)
         {
             var account = this.Context.Friends.Where(x => (x.Name.Replace(" ", "").ToLower() + x.Surname.Replace(" ", "").ToLower()) == friend.FriendName.Replace(" ", "").ToLower()).FirstOrDefault();
             friend.Friend = account;
@@ -31,7 +31,7 @@ namespace CountryFriend.Repository.Friend
         {
             return this.Context.FriendFriends.FirstOrDefault(x => x.Id == friendId);
         }
-        public async Task<IdentityResult> UpdateFoFAsync(Domain.Friend.FriendFriend newFriend)
+        public async Task<IdentityResult> UpdateFriendFriendAsync(Domain.Friend.FriendFriend newFriend)
         {
             var oldFriend = Context.FriendFriends.FirstOrDefault(x => x.Id == newFriend.Id);
             oldFriend.Name = newFriend.Name;
@@ -39,7 +39,7 @@ namespace CountryFriend.Repository.Friend
             await this.Context.SaveChangesAsync();
             return IdentityResult.Success;
         }
-        public async Task<IdentityResult> DeleteFoFAsync(Guid friendId)
+        public async Task<IdentityResult> DeleteFriendFriendAsync(Guid friendId)
         {
             var friend = Context.FriendFriends.FirstOrDefault(x => x.Id == friendId);
             using (var transaction = this.Context.Database.BeginTransaction())
