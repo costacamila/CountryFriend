@@ -1,0 +1,20 @@
+﻿@model List<int>
+
+@{
+    ViewData["Title"] = "DbCounter";
+}
+
+<div class="text-center">
+    <h1 class="display-2">Database Counter:</h1>
+    <hr />
+    @if (Model != null)
+    {
+        <div style="text-align: center;">
+            <h3>Friend: @Model[0]</h3>
+            <br />
+            <h3>Country: @Model[1]</h3>
+            <br />
+            <h3>State: @Model[2]</h3>
+        </div>
+    }
+</div>

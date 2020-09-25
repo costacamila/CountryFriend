@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CountryFriend.Web.Models;
+using RestSharp;
 
 namespace CountryFriend.Web.Controllers
 {
@@ -16,6 +17,26 @@ namespace CountryFriend.Web.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        public IActionResult DbCounter()
+        {
+            var list = new List<int>();
+
+            var client = new RestClient();
+            var requestFriendCount = new RestRequest("https://localhost:5003/api/friend/dbcount");
+            var requestCountryCount = new RestRequest("https://localhost:5005/api/country/dbcount");
+            var requestStateCount = new RestRequest("https://localhost:5005/api/state/dbcount");
+
+            var friendCount = client.Get<int>(requestFriendCount).Data;
+            var countryCount = client.Get<int>(requestCountryCount).Data;
+            var stateCount = client.Get<int>(requestStateCount).Data;
+
+            list.Add(friendCount);
+            list.Add(countryCount);
+            list.Add(stateCount);
+
+            return View(list);
         }
 
         public IActionResult Index()
